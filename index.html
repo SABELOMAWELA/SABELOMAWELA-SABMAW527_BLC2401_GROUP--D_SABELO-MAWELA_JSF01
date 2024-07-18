@@ -10,13 +10,13 @@
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
-    <title>Document</title>
+    <title>Document</title> 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="/src/output.css" rel="stylesheet">
     <script src="/src/index.js"></script>
    
 </head>
-<body class="bg-cyan-100">
+<body class="bg-cyan-100" >
     <header class="sticky z-50 top-0">
         <nav class="bg-gray-500 border-gray-200 ">
           <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -222,66 +222,84 @@
       </div>
     </div>
 
-    <div x-data="storeData" class="grid justify-center">
-        <div class="lg:max-h-[130rem] max-w-xl mx-auto grid gap-4 grid-cols-1 lg:grid-cols-4 md:grid-cols-2 items-center lg:max-w-none my-4">
-        <template x-for="product in data.products" :key="product.id">
-    <div
-   
-      onClick={handleClick}
-      class="flex flex-col max-h-[130rem]  cursor-pointer max-w-80 hover:-translate-y-1 hover:scale-105 duration-300 bg-white border border-slate-200 shadow shadow-slate-950/5 rounded-2xl overflow-hidden"
-    >
-    <img class="object-contain h-48 mt-3" :src="product.image" />
-
-      <div class="flex-1 flex flex-col p-6">
-        <div class="flex-1">
-         
-          <header class="mb-2 flex-2">
-            <h2 class="text-lg line-clamp-2 font-extrabold leading-snug">
-              <div class="text-slate-600 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300">
-                <h2  x-text="product.title"></h2>
-              </div>
-            </h2>
-          </header>
-          <div class="flex items-center">
-          {rating}
-          </div>
-          <div class="text-base line-clamp-2 font-extrabold text-slate-500 leading-snug">
-            <h2 x-text="'$' + product.price"></h2> 
-          </div>
-        </div>
-
-        <div class="flex mt-1 space-x-2">
-          <div class="justify-start flex-1">
-            <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
-                <h2 x-text="product.category"></h2>
-            </span>
-          </div>
-          <div class="justify-end space-x-2">
-            <button onClick={addToFavourites}>
+    <div x-data="storeData" class="grid">
+      <!-- loading state component -->
+      <div x-show="loading"
+        role="status"
+        class="grid inline-grid justify-center gap-4 lg:grid-cols-4 md:grid-cols-2space-y-8 mt-6 sm:mt-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:grid md:items-center my-[16px] mx-auto"
+      >
+      
+        <template x-for="i in 20" :key="i">
+          <div class="bg-white max-w-sm p-4 border border-gray-200 rounded shadow animate-pulse md:p-6 dark:border-gray-700">
+            <div class="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded dark:bg-gray-700">
               <svg
-                class="me-1.5 h-5 w-5 hover:fill-red-500 "
+                class="w-10 h-10 text-gray-200 dark:text-gray-600"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="none"
-                viewBox="0 0 24 24"
-                transform="scale(1.6)"
+                fill="currentColor"
+                viewBox="0 0 16 20"
               >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"
-                />
+                <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z" />
+                <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
               </svg>
-            </button>
-
-            <button class="inline-flex justify-center whitespace-nowrap rounded-lg bg-cyan-700 px-3 py-2 text-sm font-medium text-white hover:bg-cyan-900 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors">
-              Add To Cart
-            </button>
+            </div>
+            <div >
+            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+            <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+            <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-10 mb-4"></div>
+            <span class="sr-only">Loading...</span>
           </div>
+        </template>
+      </div>
+  
+      <!-- product list -->
+      <div x-show="!loading" class="grid justify-center">
+        <div class="lg:max-h-[130rem] max-w-xl mx-auto grid gap-4 grid-cols-1 lg:grid-cols-4 md:grid-cols-2 items-center lg:max-w-none my-4">
+          <template x-for="product in data.products" :key="product.id">
+            <div onClick={handleClick}
+              class="flex flex-col max-h-[130rem] cursor-pointer max-w-80 hover:-translate-y-1 hover:scale-105 duration-300 bg-white border border-slate-200 shadow shadow-slate-950/5 rounded-2xl overflow-hidden"
+            >
+              <img class="object-contain h-48 mt-3" :src="product.image" />
+              <div class="flex-1 flex flex-col p-6">
+                <div class="flex-1">
+                  <header class="mb-2 flex-2">
+                    <h2 class="text-lg line-clamp-2 font-extrabold leading-snug">
+                      <div class="text-slate-600 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300">
+                        <h2 x-text="product.title"></h2>
+                      </div>
+                    </h2>
+                  </header>
+                  <div class="flex items-center">
+                    <template x-for="star in 5">
+                      <svg :class="{'text-yellow-500': star <= Math.round(product.rating.rate), 'text-gray-300': star > Math.round(product.rating.rate)}" class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 .587l3.668 7.571 8.332 1.151-6.063 5.852 1.428 8.287L12 18.897l-7.365 3.851 1.428-8.287-6.063-5.852 8.332-1.151z"/>
+                      </svg>
+                    </template>
+                  </div>
+                </div>
+                <div class="text-base line-clamp-2 font-extrabold text-slate-500 leading-snug">
+                  <h2 x-text="'$' + product.price"></h2>
+                </div>
+                <div class="flex mt-1 space-x-2">
+                  <div class="justify-start flex-1">
+                    <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                      <h2 x-text="product.category"></h2>
+                    </span>
+                  </div>
+                  <div class="justify-end space-x-2">
+                    <button onClick = {addTofavourites}>
+                      <svg class="me-1.5 h-5 w-5 hover:fill-red-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" transform="scale(1.6)">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                      </svg>
+                    </button>
+                    <button class="inline-flex justify-center whitespace-nowrap rounded-lg bg-cyan-700 px-3 py-2 text-sm font-medium text-white hover:bg-cyan-900 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors">
+                      Add To Cart
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
     </div>
