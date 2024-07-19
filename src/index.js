@@ -3,6 +3,12 @@ const storeData = () => ({
     products: [],
   },
   loading: true,
+  showModal: false,
+  modalProduct: null,
+  openModal(item) {
+    this.modalProduct = item;
+    this.showModal = true;
+  },
   init() {
     this.loading = true;
     fetch("https://fakestoreapi.com/products")
@@ -20,3 +26,9 @@ const storeData = () => ({
 document.addEventListener('alpine:init', () => {
   Alpine.data('storeData', storeData);
 });
+
+
+  function Refresh() {
+    showModal = false;
+    window.location.reload();
+  }
