@@ -16,21 +16,21 @@
     <script src="/src/index.js"></script>
    
 </head>
-<body x-data="storeData" x-init="init()"  class="bg-cyan-100" >
+<body x-data="storeData"   class="bg-cyan-100" >
   <!-- navbar -->
     <header  class="sticky z-50 top-0">
         <nav class="bg-gray-500 border-gray-200 ">
           <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <Link to="/">
+            <span @click="Refresh">
               <button class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="src/assets/online-shop.png" class="h-8" alt="Flowbite Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap text-white" @click="RELOAD">
+                <span class="self-center text-2xl font-semibold whitespace-nowrap text-white" >
                   SwiftCart
                 </span>
               </button>
-            </Link>
+            </span>
             <button
-              onClick={toggleNavbar}
+              @Click=toggleNavbar
               data-collapse-toggle="navbar-default"
               type="button"
               class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
@@ -102,7 +102,7 @@
   
                 <li>
                   <span
-                  @click="Login"
+                  @click="showLogin = true"
                     class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 "
                   >
                     Login
@@ -114,7 +114,7 @@
         </nav>
       </header>
       <!-- search bar & categories form  -->
-      <div class="grid lg:flex gap-y-4 gap-x-48 lg:items-start mt-3 mx-auto justify-center">
+      <div x-show="!showLogin && !showModal" class="grid lg:flex gap-y-4 gap-x-48 lg:items-start mt-3 mx-auto justify-center">
         <form @submit.prevent="handleSubmit">
           <div class="flex lg:w-[31.25rem] sm:w-[95%] md:w-full relative">
             <button @click="toggleDropdown" id="dropdown-button" :aria-expanded="dropdownOpen" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200" type="button">
@@ -145,10 +145,10 @@
           </div>
         </form>
         <!-- Sort prices -->
-        <div class="flex sm:w-[95%] max-w-[21rem] md:w-full">
+        <div  x-show="!showLogin && !showModal" class="flex sm:w-[95%] max-w-[21rem] md:w-full">
           <label for="sort" class="w-20 my-auto font-semibold text-black">Sort by:</label>
           <select id="sort" @change="handleSort" x-model="sorting" class="p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 ">
-            <option disabled>Default</option>
+            <option @click="Refresh">Default</option>
             <option>Price: low to high</option>
             <option>Price: high to low</option>
           </select>
@@ -161,7 +161,7 @@
         <!-- loading state component -->
         <div x-show="loading"
           role="status"
-          class="grid inline-grid justify-center gap-4 lg:grid-cols-4 md:grid-cols-2space-y-8 mt-6 sm:mt-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:grid md:items-center my-[16px] mx-auto"
+          class="lg:max-h-[130rem] max-w-xl mx-auto grid gap-4 grid-cols-1 lg:grid-cols-4 md:grid-cols-2 items-center lg:max-w-none my-4"
         >
         
           <template x-for="i in 20" :key="i">
@@ -188,7 +188,7 @@
         </div>
 
         <div x-show="data.products" class="grid justify-center">
-            <div x-show="!showModal" class="lg:max-h-[130rem] max-w-xl mx-auto grid gap-4 grid-cols-1 lg:grid-cols-4 md:grid-cols-2 items-center lg:max-w-none my-4">
+            <div x-show="!showModal && !showLogin" class="lg:max-h-[130rem] max-w-xl mx-auto grid gap-4 grid-cols-1 lg:grid-cols-4 md:grid-cols-2 items-center lg:max-w-none my-4">
                 <template x-for="product in data.products" :key="product.id">
                     <div @click="openModal(product)"
                         class="flex flex-col max-h-[130rem] cursor-pointer max-w-80 hover:-translate-y-1 hover:scale-105 duration-300 bg-white border border-slate-200 shadow shadow-slate-950/5 rounded-2xl overflow-hidden"
@@ -237,8 +237,8 @@
             </div>
         </div>
         
-        <!-- product loading state  -->
-        <div x-show="showModal && Loading"
+        <!-- product loading state  --> 
+       <div x-show="showModal && Loading"
         role="status"
         class="space-y-8 mt-6 sm:mt-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center">
         <div class="flex items-center justify-center w-full h-96 bg-gray-400 rounded sm:w-96 dark:bg-gray-700">
@@ -297,5 +297,74 @@
               </div>
           </div>
       </div>
+<!-- Login in  -->
+<div x-show="showLogin" class="bg-cyan-100 min-h-screen font-sans mt-6">
+  <div class="max-w-sm mx-auto px-6">
+    <div class="relative flex flex-wrap">
+      <div class="w-full relative mt-6" >
+        <div class="mt-44">
+           <img src="src/assets/shop.png" class="mx-auto" alt="Flowbite Logo" />
+        
+          <div class="text-center font-bold text-gray-700">
+            Welcome to SwiftCart! Log in to continue your seamless shopping journey.
+          </div>
+         
+          <form class="mt-8">
+            <div class="mx-auto max-w-lg">
+              <div class="py-2">
+                <span class="px-1 text-sm text-gray-600">Username</span>
+                <input placeholder="" type="text"
+                  class="text-md block px-3 py-2  rounded-lg w-full 
+                bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none">
+              </div>
+              <div class="py-2" x-data="{ show: true }">
+                <span class="px-1 text-sm text-gray-600">Password</span>
+                <div class="relative">
+                  <input placeholder="" :type="show ? 'password' : 'text'" class="text-md block px-3 py-2 rounded-lg w-full 
+                bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md
+                focus:placeholder-gray-500
+                focus:bg-white 
+                focus:border-gray-600  
+                focus:outline-none">
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+
+                    <svg class="h-6 text-gray-700" fill="none" @click="show = !show"
+                      :class="{'hidden': !show, 'block':show }" xmlns="http://www.w3.org/2000/svg"
+                      viewbox="0 0 576 512">
+                      <path fill="currentColor"
+                        d="M572.52 241.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400a144 144 0 1 1 144-144 143.93 143.93 0 0 1-144 144zm0-240a95.31 95.31 0 0 0-25.31 3.79 47.85 47.85 0 0 1-66.9 66.9A95.78 95.78 0 1 0 288 160z">
+                      </path>
+                    </svg>
+
+                    <svg class="h-6 text-gray-700" fill="none" @click="show = !show"
+                      :class="{'block': !show, 'hidden':show }" xmlns="http://www.w3.org/2000/svg"
+                      viewbox="0 0 640 512">
+                      <path fill="currentColor"
+                        d="M320 400c-75.85 0-137.25-58.71-142.9-133.11L72.2 185.82c-13.79 17.3-26.48 35.59-36.72 55.59a32.35 32.35 0 0 0 0 29.19C89.71 376.41 197.07 448 320 448c26.91 0 52.87-4 77.89-10.46L346 397.39a144.13 144.13 0 0 1-26 2.61zm313.82 58.1l-110.55-85.44a331.25 331.25 0 0 0 81.25-102.07 32.35 32.35 0 0 0 0-29.19C550.29 135.59 442.93 64 320 64a308.15 308.15 0 0 0-147.32 37.7L45.46 3.37A16 16 0 0 0 23 6.18L3.37 31.45A16 16 0 0 0 6.18 53.9l588.36 454.73a16 16 0 0 0 22.46-2.81l19.64-25.27a16 16 0 0 0-2.82-22.45zm-183.72-142l-39.3-30.38A94.75 94.75 0 0 0 416 256a94.76 94.76 0 0 0-121.31-92.21A47.65 47.65 0 0 1 304 192a46.64 46.64 0 0 1-1.54 10l-73.61-56.89A142.31 142.31 0 0 1 320 112a143.92 143.92 0 0 1 144 144c0 21.63-5.29 41.79-13.9 60.11z">
+                      </path>
+                    </svg>
+
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-between"><label class="block text-gray-500 font-bold my-4"><input type="checkbox"
+                    class="leading-loose text-pink-600"> <span class="py-2 text-sm text-gray-600 leading-snug"> Remember
+                    Me </span></label> <label class="block text-gray-500 font-bold my-4"><a
+                    href="#"
+                    class="cursor-pointer tracking-tighter text-black border-b-2 border-gray-200 hover:border-gray-400"><span>Forgot
+                      Password?</span></a></label></div> 
+                      <button @click="Refresh" class="mt-3 text-lg font-semibold 
+                      bg-black w-full text-gray-700 rounded-lg
+                px-2 py-3 block shadow-xl hover:text-white hover:bg-black">
+                Login
+              </button>
+            </div>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>

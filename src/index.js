@@ -20,6 +20,7 @@ const storeData = () => ({
     categories: [],
     searchTerm: '',
     sorting: '',
+    showLogin: false, 
 
     openModal(item) {
       this.showModal = true;
@@ -39,11 +40,16 @@ const storeData = () => ({
     Refresh() {
       this.loading = true;
       this.showModal = false;
+      this.showLogin= false;
       this.loadProducts();
     },
 
     toggleDropdown() {
       this.dropdownOpen = !this.dropdownOpen;
+    },
+    toggleNavbar() {
+      const navbarDropdown = document.getElementById('navbar-dropdown');
+      navbarDropdown.classList.toggle('hidden');
     },
 
     handleFilter(category) {
